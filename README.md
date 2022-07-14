@@ -8,6 +8,7 @@ The project is data science focused, with data exploration, data analysis, and m
 # How to install
 
 1. Download datasets. 
+
 | Title      | Description | Link     |
 | :---        |    :----:   |          ---: |
 | Depression Tweets      | Crawled Data from twitter for users having tweeted about depression diagnosis       | https://www.kaggle.com/datasets/imen12/depression-tweets   |
