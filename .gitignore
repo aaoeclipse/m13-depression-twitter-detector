@@ -1,3 +1,4 @@
 data/depression/*.csv
 data/normal/*.csv
+data/*.csv
 ml_model_env/
