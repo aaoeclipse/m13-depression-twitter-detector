@@ -1,3 +1,6 @@
 data/depression/*.csv
 data/normal/*.csv
 ml_model_env/
+*.env
+.vscode
+.DS_Store
