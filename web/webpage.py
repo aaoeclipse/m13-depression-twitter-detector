@@ -78,11 +78,7 @@ def main():
                     df = utils.fetch_tweets(parse_tweet)
                     st.write(df)
                 except Exception:
-                    st.write("Error on fetching tweet")
-                
-                
-            st.success('Done!')
-            st.write('Why hello there')
+                    st.error("Error on fetching tweet")
         else:
             st.write('Ready to fetch...')
 
