@@ -1,7 +1,10 @@
+from email import utils
 import streamlit as st
 import pandas as pd
 import pickle
 import time
+
+import utils as utils
 
 from metrics import get_tweet_vector
 
@@ -70,7 +73,14 @@ def main():
 
         if st.sidebar.button('fetch twitter account'):
             with st.spinner('Wait for it...'):
-                time.sleep(5)
+                parse_tweet = utils.get_twitter(tweet)
+                try:
+                    df = utils.fetch_tweets(parse_tweet)
+                    st.write(df)
+                except Exception:
+                    st.write("Error on fetching tweet")
+                
+                
             st.success('Done!')
             st.write('Why hello there')
         else:

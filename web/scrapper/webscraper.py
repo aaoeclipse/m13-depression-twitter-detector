@@ -58,8 +58,8 @@ class TwitterBot():
             return (status, df)
 
 
-if __name__ == "__main__":
-    bot = TwitterBot()
-    state, df = bot.get_user("VancityReynolds")
-    print(state)
-    print(df.head(20))
+# if __name__ == "__main__":
+#     bot = TwitterBot()
+#     state, df = bot.get_user("VancityReynolds")
+#     print(state)
+#     print(df.head(20))

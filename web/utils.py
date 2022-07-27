@@ -1,4 +1,12 @@
 
+
+from scrapper.webscraper import Status, TwitterBot
+import pandas as pd
+
+
+bot = TwitterBot()
+
+
 def get_twitter(twitter: str) -> str:
     """ transform twitter to the correct format
 
@@ -6,12 +14,13 @@ def get_twitter(twitter: str) -> str:
         twitter (str): twitter handler
 
     Returns:
-        str: twitter handler with correct format
+        str: twitter handler with correct format.
     """
-    pass
+
+    return twitter.strip("@")
 
 
-def fetch_tweets(twitter: str) -> list:
+def fetch_tweets(twitter: str) -> pd.DataFrame:
     """retrieve the last 50 tweets from the twitter handler
 
     Args:
@@ -20,7 +29,12 @@ def fetch_tweets(twitter: str) -> list:
     Returns:
         list: list of twitters of the user
     """
-    pass
+    state, df = bot.get_user(twitter)
+
+    if state == Status.FAIL:
+        raise Exception("Failed to get twitters")
+
+    return df
 
 
 def get_tweeters_with_metrics(tweets: list) -> list:
