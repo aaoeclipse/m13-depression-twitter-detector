@@ -23,6 +23,18 @@ python3 -m pip install -r requirements.txt
 
 4. run it with jupyter-lab or jupyter-notebook
 
+
+# Run Web
+1. install requiriements
+```bash
+python3 -m pip install -r requirements.txt
+```
+2. run streamlit on web folder webpage.py
+```bash
+streamlit run web/webpage.py
+```
+
+
 # Authors
 * Santiago Paiz
 * Ekaterina Podruzhko
