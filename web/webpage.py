@@ -2,17 +2,11 @@ from email import utils
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from PIL import Image
 
 import utils as utils
 
 
-# with open('lin.pkl', 'rb') as li:
-#     lin_reg = pickle.load(li)
-
-
 def main():
-    image = Image.open('web/img/Group_52.png')
 
     
     def user_weights():
@@ -60,7 +54,6 @@ def main():
 
     st.title('Twitter detection model')
 
-    st.image(image)
 
 
     st.sidebar.subheader("Prediction Parameter")
