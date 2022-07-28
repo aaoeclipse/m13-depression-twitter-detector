@@ -1,7 +1,14 @@
 
 
-from scrapper.webscraper import Status, TwitterBot
+# Packages
 import pandas as pd
+import ast
+
+# Local Packages
+from scrapper.webscraper import Status, TwitterBot
+import metrics.metrics as metrics
+import sentimental.sentimental_model as sent_model
+import model.ml_model as model
 
 
 bot = TwitterBot()
@@ -37,25 +44,49 @@ def fetch_tweets(twitter: str) -> pd.DataFrame:
     return df
 
 
-def get_tweeters_with_metrics(tweets: list) -> list:
+def get_tweeters_with_metrics(df: pd.DataFrame) -> pd.DataFrame:
     """generate metrics per tweets
 
     Args:
-        tweets (list): list of tweeters
+        tweets (df): df of tweets
 
     Returns:
         list: list of metrics of each tweet
     """
-    pass
+    df['tweet_vector'] = df['tweet'].apply(metrics.get_tweet_vector)
+    # TODO: sentimental
+    df['sentimental_value'] = sent_model.get_sentimental()
+    df['tweet_vector'] = df.apply(lambda x: metrics.get_tweet_data_vector(x.tweet_vector, x.timestamp, x.favorite_count, x.retweet_count, x.sentimental_value), axis=1)
+    df['tweet_vector'] = df.apply(lambda x: ast.literal_eval(str(x.tweet_vector)), axis='columns')
+    df = df.join(df['tweet_vector'].apply(pd.Series))
+    df = pd.DataFrame(df.groupby('userID').mean())
+    return df
 
 
-def predict_model_with_array(metrics: list) -> float:
-    """predict with model the depression level of the list of metrics
+
+
+
+def predict_model_with_array(df: pd.DataFrame) -> float:
+    """predict with model the depression level of the list of df
 
     Args:
-        metrics (list): list of metrics
+        df (list): list of df
 
     Returns:
         float: from 0 to 1 the prob of being depressed
     """
-    pass
+    return model.predict(df)
+
+
+def full_process(twitter: str) -> float:
+    """full pipeline of the model
+
+    Args:
+        twitter (str): twitter account
+
+    Returns:
+        float: probability of it being with depression
+    """   
+    tweets = fetch_tweets(get_twitter(twitter))
+    tweets_w_metrics = get_tweeters_with_metrics(tweets)
+    return predict_model_with_array(tweets_w_metrics)
