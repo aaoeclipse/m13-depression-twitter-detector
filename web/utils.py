@@ -54,8 +54,7 @@ def get_tweeters_with_metrics(df: pd.DataFrame) -> pd.DataFrame:
         list: list of metrics of each tweet
     """
     df['tweet_vector'] = df['tweet'].apply(metrics.get_tweet_vector)
-    # TODO: sentimental
-    df['sentimental_value'] = sent_model.get_sentimental()
+    df['sentimental_value'] = sent_model.get_sentimental(df)
     df['tweet_vector'] = df.apply(lambda x: metrics.get_tweet_data_vector(x.tweet_vector, x.timestamp, x.favorite_count, x.retweet_count, x.sentimental_value), axis=1)
     df['tweet_vector'] = df.apply(lambda x: ast.literal_eval(str(x.tweet_vector)), axis='columns')
     df = df.join(df['tweet_vector'].apply(pd.Series))
@@ -89,4 +88,4 @@ def full_process(twitter: str) -> float:
     """   
     tweets = fetch_tweets(get_twitter(twitter))
     tweets_w_metrics = get_tweeters_with_metrics(tweets)
-    return predict_model_with_array(tweets_w_metrics)
+    return predict_model_with_array(tweets_w_metrics) * 15
