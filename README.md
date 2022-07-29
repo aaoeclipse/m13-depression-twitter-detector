@@ -5,6 +5,7 @@ Twitter detector is a machine learning model that learns form the given data in 
 # Description
 The project is data science focused, with data exploration, data analysis, and machine training and testing 
 
+
 # How to install
 
 1. Download datasets. 
@@ -33,6 +34,11 @@ python3 -m pip install -r requirements.txt
 ```bash
 streamlit run web/webpage.py
 ```
+
+# Sentiment Analysis Model Colab Training
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1SV8wpPFqb8ja0LzLLmMPxdjmaPTScdJu?usp=sharing)
+
+
 
 
 # Authors
