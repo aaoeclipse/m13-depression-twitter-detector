@@ -1,18 +1,14 @@
 from email import utils
 import streamlit as st
 import pandas as pd
-import pickle
-import time
+import matplotlib.pyplot as plt
 
 import utils as utils
 
-from metrics import get_tweet_vector
-
-# with open('lin.pkl', 'rb') as li:
-#     lin_reg = pickle.load(li)
-
 
 def main():
+
+    
     def user_weights():
         st.sidebar.subheader("weights")
         weight_abolutist_metric = st.sidebar.slider(
@@ -58,6 +54,8 @@ def main():
 
     st.title('Twitter detection model')
 
+
+
     st.sidebar.subheader("Prediction Parameter")
 
     selection = st.sidebar.selectbox(
@@ -73,12 +71,22 @@ def main():
 
         if st.sidebar.button('fetch twitter account'):
             with st.spinner('Wait for it...'):
-                parse_tweet = utils.get_twitter(tweet)
                 try:
-                    df = utils.fetch_tweets(parse_tweet)
-                    st.write(df)
-                except Exception:
-                    st.error("Error on fetching tweet")
+                    prob_of_depression = utils.full_process(tweet)[0][1]
+
+                    labels = 'Depressed', 'Normal'
+                    sizes = [(prob_of_depression*100), 100-(prob_of_depression*100)]
+                    explode = (0.1, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                            shadow=True, startangle=90)
+                    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+                    st.pyplot(fig1)
+                    st.write(f"Probability of being depressed: {prob_of_depression*100:.2f}%")
+                    
+                except Exception as e:
+                    st.error("Error on fetching tweet: {}".format(e))
         else:
             st.write('Ready to fetch...')
 
